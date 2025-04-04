@@ -66,7 +66,7 @@ class CryptoManager:
             plaintext = aesgcm.decrypt(nonce, ct, None)
             return plaintext
         except Exception as e:
-            raise ValueError(f"Decryption failed: {e}, key length: {len(key)}, ciphertext length: {len(ct)}")")
+            raise ValueError(f"Decryption failed: {e}, key length: {len(key)}, ciphertext length: {len(ct)}")
     
     def secure_store(self, data, password):
         ph = PasswordHasher()

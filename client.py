@@ -11,6 +11,16 @@ import pickle
 
 from crypto_utils import CryptoManager
 
+def get_local_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(("8.8.8.8", 80))  # doesn't need to succeed
+        return s.getsockname()[0]
+    except:
+        return "127.0.0.1"
+    finally:
+        s.close()
+
 class SecureShareClient:
     def __init__(self, name, port=8080):
         self.port = port
@@ -21,11 +31,14 @@ class SecureShareClient:
         self.session_keys = {}
         self.peer_signing_keys = {}
         self.pending_download_request = None
+
+        local_ip = get_local_ip()
+        print(f"[DEBUG] Registering service on IP: {local_ip}:{self.port}")
         
         service_info = ServiceInfo(
             "_secure-share._tcp.local.",
             f"{name}._secure-share._tcp.local.",
-            addresses=[socket.inet_aton("172.20.10.2")],
+            addresses=[socket.inet_aton("127.0.0.1")],
             port=self.port,
             properties={"pubkey": self.crypto.get_static_pubkey()}
         )
@@ -187,7 +200,7 @@ class SecureShareClient:
 
     def connect_to_peer(self, address):
         try:
-            ip, port = address.split(':') if ':' in address else (address, 8080)
+            ip, port = address.split(':') if ':' in address else (address, 8081)
             port = int(port)
             
             with socket.socket() as s:
@@ -245,10 +258,8 @@ class SecureShareClient:
         with open(file_path, 'rb') as f:
             data = f.read()
         
-        # Sign the file
         signature = self.crypto.sign_file(data)
         
-        # Sign the public key
         signing_pubkey = self.crypto.get_signing_pubkey()
         
         # Send file name, file data, file signature, and signed public key as a package
@@ -403,12 +414,14 @@ class SecureShareClient:
     def _update_service_info(self):
         # Unregister old services
         self.zeroconf.unregister_all_services()
+        local_ip = get_local_ip()
+        print(f"[DEBUG] Registering service on local IP: {local_ip}")
         
         # Re-register the service with the new public key
         service_info = ServiceInfo(
             "_secure-share._tcp.local.",
             f"{self.name}._secure-share._tcp.local.",
-            addresses=[socket.inet_aton("172.20.10.2")],
+            addresses=[socket.inet_aton("127.0.0.1")],            
             port=self.port,
             properties={"pubkey": self.crypto.get_static_pubkey()}
         )
