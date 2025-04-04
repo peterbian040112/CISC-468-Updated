@@ -22,7 +22,9 @@ def get_local_ip():
         s.close()
 
 class SecureShareClient:
-    def __init__(self, name, port=8080):
+    def __init__(self, name, port=8080, enable_networking=True): # for testing purposes
+
+    # def __init__(self, name, port=8080):
         self.port = port
         self.name = name
         self.crypto = CryptoManager()
@@ -32,27 +34,28 @@ class SecureShareClient:
         self.peer_signing_keys = {}
         self.pending_download_request = None
 
-        local_ip = get_local_ip()
-        print(f"[DEBUG] Registering service on IP: {local_ip}:{self.port}")
-        
-        service_info = ServiceInfo(
-            "_secure-share._tcp.local.",
-            f"{name}._secure-share._tcp.local.",
-            addresses=[socket.inet_aton("127.0.0.1")],
-            port=self.port,
-            properties={"pubkey": self.crypto.get_static_pubkey()}
-        )
-        self.zeroconf.register_service(service_info)
-        
-        # Discover other peers
-        self.browser = ServiceBrowser(
-            self.zeroconf, 
-            "_secure-share._tcp.local.", 
-            handlers=[self._on_service_state_change]
-        )
-        
-        # Make sure the server is running in a separate thread
-        threading.Thread(target=self._start_server, daemon=True).start()
+        if enable_networking: # for testing purposes
+            local_ip = get_local_ip()
+            print(f"[DEBUG] Registering service on IP: {local_ip}:{self.port}")
+            
+            service_info = ServiceInfo(
+                "_secure-share._tcp.local.",
+                f"{name}._secure-share._tcp.local.",
+                addresses=[socket.inet_aton("127.0.0.1")],
+                port=self.port,
+                properties={"pubkey": self.crypto.get_static_pubkey()}
+            )
+            self.zeroconf.register_service(service_info)
+            
+            # Discover other peers
+            self.browser = ServiceBrowser(
+                self.zeroconf, 
+                "_secure-share._tcp.local.", 
+                handlers=[self._on_service_state_change]
+            )
+            
+            # Make sure the server is running in a separate thread
+            threading.Thread(target=self._start_server, daemon=True).start()
     
     def _on_service_state_change(self, zeroconf, service_type, name, state_change):
         if state_change == ServiceStateChange.Added:
