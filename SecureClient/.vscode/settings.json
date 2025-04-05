@@ -1,0 +1,24 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib\\bcprov-jdk18on-1.80.jar",
+        "d:\\Java\\lib\\javafx-swt.jar",
+        "d:\\Java\\lib\\deploy.jar",
+        "d:\\Java\\lib\\jrt-fs.jar",
+        "d:\\Java\\lib\\jmdns-3.6.0.jar",
+        "d:\\Java\\lib\\plugin-legacy.jar",
+        "d:\\Java\\lib\\ant-javafx.jar",
+        "d:\\Java\\lib\\javaws.jar",
+        "d:\\Java\\lib\\jdk.deploy.jar",
+        "d:\\Java\\lib\\java.jnlp.jar",
+        "d:\\Java\\lib\\plugin.jar",
+        "d:\\Java\\lib\\slf4j-api-1.7.36.jar",
+        "d:\\Java\\lib\\jdk.plugin.jar",
+        "d:\\Java\\lib\\jdk.plugin.dom.jar",
+        "d:\\Java\\lib\\jdk.javaws.jar",
+        "d:\\Java\\lib\\slf4j-simple-1.7.36.jar"
+    ]
+}
