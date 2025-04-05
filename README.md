@@ -1,6 +1,6 @@
 # CISC-468-Updated
 For the Python client, the user can start off with mkdir -p shared_files received_files signatures keys to create the necessary folder to keep everything tidy and accessable.
-Or manually create these folders in the same path as the client.
+Or manually create these folders in the same path as the client. You can see the Java client in the Java branch
 
 Use python client.py [clientname] --port [portnumber] to launch the client
 
