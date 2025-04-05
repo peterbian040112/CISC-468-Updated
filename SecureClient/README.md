@@ -14,7 +14,16 @@ Meanwhile, the compiled output files will be generated in the `bin` folder by de
 
 Since the project is managed by VS Code, we'll use VS Code to help us compile. Click the run and in the command line, type the following:
 
-`java -cp "bin;lib/jmdns-3.6.0.jar;lib/slf4j-api-1.7.36.jar;lib/slf4j-simple-1.7.36.jar;lib/bcprov-jdk18on-1.80.jar" SecureShareClient JavaClient --port 8080`
+run
+
+`java -cp "bin;lib/jmdns-3.6.0.jar;lib/slf4j-api-1.7.36.jar;lib/slf4j-simple-1.7.36.jar;lib/bcprov-jdk18on-1.80.jar" secureshare.SecureShareClient [clientName] --port [portNumber]`
+
+
+Or if the IDE does not support compiling, typing
+compile
+
+`javac -cp "lib/*" -d bin src/secureshare/*.java`
+
 
 
 For the instruction 
