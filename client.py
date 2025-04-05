@@ -490,7 +490,7 @@ class SecureShareClient:
 
     def save_received_file(self, filename, data, password=None):
         if password:
-            # Encrypt with password
+            # Encrypt with password (which None as default)
             encrypted_data = self.crypto.secure_store(data, password)
             with open(f"received_files/{filename}.enc", "wb") as f:
                 f.write(encrypted_data)
